@@ -3,7 +3,7 @@ const gifImage = document.createElement("img");
 gifImage.id = "gifImage";
 
 gifImage.style.position = "fixed";
-gifImage.style.zIndex = "9999";
+gifImage.style.zIndex = "99999";
 gifImage.style.pointerEvents = "none";
 
 // Get the slider data from storage
@@ -15,6 +15,7 @@ chrome.storage.sync.get("userData", function (result) {
     gifImage.style.width = "150px";
     gifImage.style.top = "40px";
     gifImage.style.right = "10px";
+    gifImage.style.display = "block";
   } else {
     // Access the retrieved userData
     const sliderData = result.userData;
@@ -31,16 +32,6 @@ chrome.storage.sync.get("newUrl", function (result) {
     gifImage.src = result.newUrl;
   }
 });
-
-/* 
-if (!sliderData) {
-  // If slider data doesn't exist, set default styles
-  gifImage.style.width = "150px";
-  gifImage.style.top = "40px";
-  gifImage.style.right = "10px";
-} */
-console.log("script running");
-
 // Append the <img> element to the body of the webpage
 document.body.appendChild(gifImage);
 
@@ -48,12 +39,21 @@ const applyStylesToGif = (sliderData) => {
   const width = parseInt(sliderData.width);
   const top = parseInt(sliderData.top);
   const right = parseInt(sliderData.right);
+  const onSwitch = sliderData.onSwitch.toString();
 
-  console.log("widthdata: ", width, top, right);
+  console.log("widthdata: ", width, top, right, onSwitch);
   // Apply styles using the received slider data
   gifImage.style.width = `${width}px`;
   gifImage.style.top = `${top}px`;
   gifImage.style.right = `${right}px`;
+
+  if (onSwitch === "true") {
+    console.log("abbero");
+
+    gifImage.style.display = "block";
+  } else {
+    gifImage.style.display = "none";
+  }
 };
 
 // Listen for a single message containing updated slider data
@@ -67,6 +67,16 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const updatedUrl = message.data;
     console.log("url:", updatedUrl);
     gifImage.src = updatedUrl;
+  } else if (message.type === "removeGif") {
+    const gifImage = document.getElementById("gifImage");
+    if (gifImage) {
+      gifImage.style.display = "none";
+    }
+  } else if (message.type === "renderGif") {
+    const gifImage = document.getElementById("gifImage");
+    if (gifImage) {
+      gifImage.style.display = "block";
+    }
   }
   // Handle other message types if needed
 });

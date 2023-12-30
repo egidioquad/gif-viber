@@ -6,20 +6,23 @@ const updateSliders = () => {
     const widthSlider = document.getElementById("widthRange");
     const topSlider = document.getElementById("topRange");
     const rightSlider = document.getElementById("rightRange");
+    const onSwitch = document.getElementById("onSwitch");
+
     // Set slider values based on userData or defaults
     widthSlider.value = userData ? userData.width || "150" : "150";
     topSlider.value = userData ? userData.top || "40" : "40";
     rightSlider.value = userData ? userData.right || "10" : "10";
+    onSwitch.checked = userData ? (userData.onSwitch ? true : false) : true;
   });
 };
-//call event listener for button <button id="reset-default">Reset Defaults</button>
+/* //call event listener for button <button id="reset-default">Reset Defaults</button>
 document.getElementById("reset-default").addEventListener("click", () => {
   // Remove userData from chrome.storage.sync
   chrome.storage.sync.remove("userData", function () {
     // Call the function to update slider values
     updateSliders();
   });
-});
+}); */
 
 // Call the function to update slider values on popup load
 
@@ -34,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         top: document.getElementById("topRange").value,
         width: document.getElementById("widthRange").value,
         right: document.getElementById("rightRange").value,
+        onSwitch: document.getElementById("onSwitch").checked,
       };
 
       // Store the userData JSON object in chrome.storage
@@ -49,8 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-updateSliders();
 
 // Add an event listener for the input event
 document.getElementById("urlButton").addEventListener("click", () => {
@@ -69,3 +71,27 @@ document.getElementById("urlButton").addEventListener("click", () => {
   // Do something with the entered value, for example, log it
   console.log("Entered value:", enteredValue);
 });
+
+// Function to update the extension state based on the toggle switch
+/* const updateExtensionState = async () => {
+  const onSwitch = document.getElementById("onSwitch");
+  const nextState = onSwitch.checked ? "ON" : "OFF";
+  // await chrome.action.setBadgeText({ text: nextState });
+
+  // Perform actions based on the extension state (ON or OFF)
+  if (nextState === "ON") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTab = tabs[0];
+      chrome.tabs.sendMessage(activeTab.id, { type: "renderGif" });
+    });
+  } else {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const activeTab = tabs[0];
+      chrome.tabs.sendMessage(activeTab.id, { type: "removeGif" });
+    });
+  }
+};
+ */
+// Add an event listener to the toggle switch
+//document.getElementById("onSwitch").addEventListener("change", updateExtensionState);
+updateSliders();

@@ -3,14 +3,14 @@
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
       rel="stylesheet" />
-    <div class="flex justify-center items-center px-4 py-4 bg-purple-500">
-      <h1 class="text-white font-semibold text-lg">GIF Vibesmith</h1>
-    </div>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
   </head>
   <style>
     input[type="range"] {
       /* Set track color */
-      --track-color: #8b5cf6; /* Replace with your desired color */
+      --track-color: #c4b5fd; /* Replace with your desired color */
 
       /* Remove default styles */
       -webkit-appearance: none;
@@ -30,39 +30,118 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
+      border-color: #a78bfa;
       background: #fff; /* Replace with your desired color */
       cursor: pointer;
       border: 1px solid var(--track-color);
     }
+
+    input[type="range"]:active::-webkit-slider-thumb {
+      background: #a78bfa; /* Change to your desired active color */
+    }
+
+    h1 {
+      font-family: "Quicksand", sans-serif;
+    }
+    label {
+      font-family: "Quicksand", sans-serif;
+    }
   </style>
-  <body class="bg-purple-200">
-    <div class="mx-8 my-4 w-64">
-      <div class="py-4 px-4 bg-purple-300 rounded-md">
-        <label for="newUrl" class="mr-2">New GIF URL:</label>
-        <div class="flex items-center fit">
-          <input type="text" id="newUrl" class="rounded border border-purple-300 h-8 flex-grow" />
-          <button id="urlButton" class="w-8 h-8 bg-purple-500 rounded-md ml-2 text-lg">></button>
+  <style>
+    /* Hide the default checkbox */
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* Style the slider */
+    .switch .slider {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      border-radius: 20px;
+      background-color: #ccc;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Style the slider's active state */
+    .switch input:checked + .slider {
+      background-color: #a78bfa; /* Change to your desired active color */
+    }
+
+    /* Style the circle knob */
+    .switch .slider::before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      border-radius: 50%;
+      background-color: white;
+      transition: transform 0.3s ease;
+    }
+
+    /* Move the circle knob to the checked position */
+    .switch input:checked + .slider::before {
+      transform: translateX(20px); /* Adjust based on the width of the slider */
+    }
+  </style>
+  <body class="w-64 bg-purple-300 p-2">
+    <div class="bg-purple-200 rounded-md">
+      <div class="flex justify-between items-center py-4 px-4">
+        <div class="hover:bg-purple-300 rounded-md py-4 px-2">
+          <h1 class="font-bold text-lg">GIF Viber</h1>
+        </div>
+        <div class="flex items-center">
+          <label class="switch">
+            <input type="checkbox" id="onSwitch" class="bg-purple-500" />
+            <span class="slider"></span>
+          </label>
         </div>
       </div>
-
-      <div class="px-4 py-4 bg-purple-300 rounded-md mt-8">
-        <label for="widthRange">Dimension:</label>
-        <input type="range" id="widthRange" min="50" max="400" class="bg-purple-500" />
-
-        <label for="topRange">Top:</label>
-        <input type="range" id="topRange" min="0" max="800" class="bg-purple-500" />
-
-        <label for="rightRange">Right:</label>
-        <input type="range" id="rightRange" min="0" max="1706" class="bg-purple-500" />
-        <!-- Other sliders for different styles -->
-        <div class="flex flex-col-reverse">
-          <button id="reset-default" class="bg-purple-500 px-4 mt-4 rounded-md h-8">
-            Reset Defaults
-          </button>
+      <div>
+        <div class="px-4">
+          <h1 class="mb-2">Upload a personalized GIF and adjust its position</h1>
+          <label for="newUrl" class="mr-2 font-semibold">New GIF URL:</label>
+          <div class="flex items-center fit">
+            <input
+              type="text"
+              id="newUrl"
+              class="rounded border border-purple-300 h-6 flex-grow" />
+            <button
+              id="urlButton"
+              class="w-8 h-6 bg-purple-300 hover:bg-purple-400 rounded-md ml-2 text-md">
+              >
+            </button>
+          </div>
         </div>
-      </div>
 
-      <script src="popup.js"></script>
+        <div class="px-4 py-4 bg-purple-200">
+          <label for="widthRange">Dimension:</label>
+          <input type="range" id="widthRange" min="50" max="400" class="bg-purple-500" />
+
+          <label for="topRange">Top:</label>
+          <input type="range" id="topRange" min="0" max="800" class="bg-purple-500" />
+
+          <label for="rightRange">Right:</label>
+          <input type="range" id="rightRange" min="0" max="1706" class="bg-purple-500" />
+          <!-- Other sliders for different styles -->
+          <!-- <div class="flex flex-col-reverse">
+								<button
+									id="reset-default"
+									class="bg-purple-300 hover:bg-purple-400 px-4 mt-4 rounded-md h-8">
+									Reset Defaults
+								</button>
+							</div> -->
+        </div>
+
+        <script src="popup.js"></script>
+      </div>
     </div>
   </body>
 </html>
+
+<!-- ddd6fe -->
