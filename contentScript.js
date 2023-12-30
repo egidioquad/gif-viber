@@ -1,4 +1,4 @@
-const gifUrl = "https://media.giphy.com/media/LimTh6f2TRq08VZCMI/giphy.gif";
+const gifUrl = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
 const gifImage = document.createElement("img");
 gifImage.id = "gifImage";
 
