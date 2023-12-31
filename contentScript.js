@@ -8,8 +8,6 @@ gifImage.style.pointerEvents = "none";
 
 // Get the slider data from storage
 chrome.storage.sync.get("userData", function (result) {
-  console.log("sliderData:", result.userData);
-
   if (!result.userData) {
     // Handle the case when userData is not available
     gifImage.style.width = "150px";
@@ -19,13 +17,11 @@ chrome.storage.sync.get("userData", function (result) {
   } else {
     // Access the retrieved userData
     const sliderData = result.userData;
-    console.log("sliderData: storage", sliderData);
     applyStylesToGif(sliderData);
   }
 });
 
 chrome.storage.sync.get("newUrl", function (result) {
-  console.log("new url:", result.newUrl);
   if (!result.newUrl) {
     gifImage.src = gifUrl;
   } else {
@@ -41,15 +37,13 @@ const applyStylesToGif = (sliderData) => {
   const right = parseInt(sliderData.right);
   const onSwitch = sliderData.onSwitch.toString();
 
-  console.log("widthdata: ", width, top, right, onSwitch);
+  console.log("styles Data: ", width, top, right, onSwitch);
   // Apply styles using the received slider data
   gifImage.style.width = `${width}px`;
   gifImage.style.top = `${top}px`;
   gifImage.style.right = `${right}px`;
 
   if (onSwitch === "true") {
-    console.log("abbero");
-
     gifImage.style.display = "block";
   } else {
     gifImage.style.display = "none";
@@ -61,11 +55,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "updateUserData") {
     // Access the updated slider data
     const updatedSliderData = message.data;
-    console.log("sliderDAata:", updatedSliderData);
     applyStylesToGif(updatedSliderData);
   } else if (message.type === "updateUrl") {
     const updatedUrl = message.data;
-    console.log("url:", updatedUrl);
     gifImage.src = updatedUrl;
   } else if (message.type === "removeGif") {
     const gifImage = document.getElementById("gifImage");

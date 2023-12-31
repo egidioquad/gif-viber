@@ -68,10 +68,9 @@ document.getElementById("urlButton").addEventListener("click", () => {
       chrome.tabs.sendMessage(activeTab.id, { type: "updateUrl", data: enteredValue });
     });
   }
-  // Do something with the entered value, for example, log it
-  console.log("Entered value:", enteredValue);
 });
 
+updateSliders();
 // Function to update the extension state based on the toggle switch
 /* const updateExtensionState = async () => {
   const onSwitch = document.getElementById("onSwitch");
@@ -94,4 +93,10 @@ document.getElementById("urlButton").addEventListener("click", () => {
  */
 // Add an event listener to the toggle switch
 //document.getElementById("onSwitch").addEventListener("change", updateExtensionState);
-updateSliders();
+
+document.addEventListener("DOMContentLoaded", function () {
+  var clickableDiv = document.getElementById("redirectInfoPage");
+  clickableDiv.addEventListener("click", function () {
+    window.location.href = "info.html";
+  });
+});
