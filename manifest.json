@@ -1,9 +1,9 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "GIF Viber",
   "description": "Decorate your browser with a GIF.",
   "version": "1.0",
-  "browser_action": {
+  "action": {
     "default_popup": "hello.html",
     "default_icon": "icon.png"
   },
@@ -13,7 +13,7 @@
       "strict_min_version": "109.0"
     }
   },
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "tabs", "scripting"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -21,7 +21,7 @@
     }
   ],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  }
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["<all_urls>"]
 }
