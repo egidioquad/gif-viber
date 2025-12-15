@@ -30,38 +30,6 @@ const applyGifUrl = async (url) => {
   if (!url) return;
   await setInStorage({ newUrl: url });
   sendMessageToActiveTab({ type: "updateUrl", data: url });
-  renderSavedUrls();
-  updatePreview(url);
-};
-
-const updatePreview = (url) => {
-  const preview = document.getElementById("gifPreview");
-  const label = document.getElementById("activeGifLabel");
-  if (preview) {
-    preview.src = url || "";
-  }
-  if (label) {
-    label.textContent = url || "";
-  }
-};
-
-const renderSavedUrls = async () => {
-  const listEl = document.getElementById("savedUrlsList");
-  listEl.innerHTML = "";
-
-  const storage = await getFromStorage(["savedGifUrls", "newUrl"]);
-  const savedUrls = storage.savedGifUrls || [];
-  const activeUrl = storage.newUrl || DEFAULT_GIF_URL;
-
-  savedUrls.forEach((url) => {
-    const li = document.createElement("li");
-    li.textContent = url;
-    li.className = `px-2 py-1 rounded-md cursor-pointer hover:bg-purple-200 break-all ${
-      url === activeUrl ? "bg-purple-300" : "bg-white"
-    }`;
-    li.addEventListener("click", () => applyGifUrl(url));
-    listEl.appendChild(li);
-  });
 };
 
 const updateSliders = () => {
@@ -79,7 +47,6 @@ const updateSliders = () => {
   });
 };
 
-// Listen for slider changes
 const registerSliderListeners = () => {
   const sliders = document.querySelectorAll(".bg-purple-500");
   sliders.forEach((slider) => {
@@ -122,22 +89,29 @@ const applyEnteredUrl = () => {
 const wireUi = () => {
   document.getElementById("urlButton").addEventListener("click", applyEnteredUrl);
   document.getElementById("saveUrlButton").addEventListener("click", saveUrlToList);
-  document.getElementById("refreshSaved").addEventListener("click", renderSavedUrls);
-  const clickableDiv = document.getElementById("redirectInfoPage");
-  clickableDiv.addEventListener("click", function () {
-    window.location.href = "info.html";
+  document.getElementById("savedPageButton").addEventListener("click", () => {
+    window.location.href = "saved.html";
+  });
+  const infoButtons = [
+    document.getElementById("redirectInfoPage"),
+    document.getElementById("redirectInfoPageSecondary"),
+  ].filter(Boolean);
+
+  infoButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      window.location.href = "info.html";
+    });
   });
 };
 
 const init = async () => {
-  const storage = await getFromStorage(["newUrl", "savedGifUrls"]);
+  const storage = await getFromStorage(["newUrl"]);
   const activeUrl = storage.newUrl || DEFAULT_GIF_URL;
 
   updateSliders();
   registerSliderListeners();
   wireUi();
-  updatePreview(activeUrl);
-  renderSavedUrls();
+  applyGifUrl(activeUrl);
 };
 
 init();
