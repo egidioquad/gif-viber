@@ -29,19 +29,29 @@ const sendMessageToActiveTab = (payload) => {
 const applyGifUrl = async (url) => {
   if (!url) return;
   await setInStorage({ newUrl: url });
-  document.getElementById("newUrl").value = url;
   sendMessageToActiveTab({ type: "updateUrl", data: url });
   renderSavedUrls();
+  updatePreview(url);
+};
+
+const updatePreview = (url) => {
+  const preview = document.getElementById("gifPreview");
+  const label = document.getElementById("activeGifLabel");
+  if (preview) {
+    preview.src = url || "";
+  }
+  if (label) {
+    label.textContent = url || "";
+  }
 };
 
 const renderSavedUrls = async () => {
   const listEl = document.getElementById("savedUrlsList");
-  const inputEl = document.getElementById("newUrl");
   listEl.innerHTML = "";
 
   const storage = await getFromStorage(["savedGifUrls", "newUrl"]);
   const savedUrls = storage.savedGifUrls || [];
-  const activeUrl = storage.newUrl || inputEl.value || DEFAULT_GIF_URL;
+  const activeUrl = storage.newUrl || DEFAULT_GIF_URL;
 
   savedUrls.forEach((url) => {
     const li = document.createElement("li");
@@ -112,6 +122,7 @@ const applyEnteredUrl = () => {
 const wireUi = () => {
   document.getElementById("urlButton").addEventListener("click", applyEnteredUrl);
   document.getElementById("saveUrlButton").addEventListener("click", saveUrlToList);
+  document.getElementById("refreshSaved").addEventListener("click", renderSavedUrls);
   const clickableDiv = document.getElementById("redirectInfoPage");
   clickableDiv.addEventListener("click", function () {
     window.location.href = "info.html";
@@ -120,12 +131,12 @@ const wireUi = () => {
 
 const init = async () => {
   const storage = await getFromStorage(["newUrl", "savedGifUrls"]);
-  const inputEl = document.getElementById("newUrl");
-  inputEl.value = storage.newUrl || DEFAULT_GIF_URL;
+  const activeUrl = storage.newUrl || DEFAULT_GIF_URL;
 
   updateSliders();
   registerSliderListeners();
   wireUi();
+  updatePreview(activeUrl);
   renderSavedUrls();
 };
 
