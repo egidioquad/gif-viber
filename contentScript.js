@@ -1,3 +1,4 @@
+const browserApi = typeof browser !== "undefined" ? browser : chrome;
 const gifUrl = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
 const gifImage = document.createElement("img");
 gifImage.id = "gifImage";
@@ -7,7 +8,7 @@ gifImage.style.zIndex = "99999";
 gifImage.style.pointerEvents = "none";
 
 // Get the slider data from storage
-chrome.storage.sync.get("userData", function (result) {
+browserApi.storage.sync.get("userData", function (result) {
   if (!result.userData) {
     // Handle the case when userData is not available
     gifImage.style.width = "150px";
@@ -21,7 +22,7 @@ chrome.storage.sync.get("userData", function (result) {
   }
 });
 
-chrome.storage.sync.get("newUrl", function (result) {
+browserApi.storage.sync.get("newUrl", function (result) {
   if (!result.newUrl) {
     gifImage.src = gifUrl;
   } else {
@@ -51,7 +52,7 @@ const applyStylesToGif = (sliderData) => {
 };
 
 // Listen for a single message containing updated slider data
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browserApi.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "updateUserData") {
     // Access the updated slider data
     const updatedSliderData = message.data;

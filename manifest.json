@@ -3,11 +3,28 @@
   "name": "GIF Viber",
   "description": "Decorate your browser with a GIF.",
   "version": "1.0",
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "96": "icon.png"
+  },
   "action": {
     "default_popup": "hello.html",
-    "default_icon": "icon.png"
+    "default_icon": {
+      "16": "icon.png",
+      "32": "icon.png",
+      "48": "icon.png"
+    },
+    "default_title": "GIF Viber"
   },
-  "permissions": ["activeTab", "storage"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "gif-viber@example.com",
+      "strict_min_version": "128.0"
+    }
+  },
+  "permissions": ["activeTab", "storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -16,5 +33,6 @@
   ],
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "host_permissions": ["<all_urls>"]
 }
