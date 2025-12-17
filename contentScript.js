@@ -1,5 +1,5 @@
 const extensionApi = typeof browser !== "undefined" ? browser : chrome;
-const gifUrl = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
+const DEFAULT_GIF_URL = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
 const gifImage = document.createElement("img");
 gifImage.id = "gifImage";
 
@@ -13,7 +13,7 @@ gifImage.style.setProperty("margin", "0", "important");
 gifImage.style.setProperty("padding", "0", "important");
 gifImage.style.setProperty("left", "auto", "important");
 
-extensionApi.storage.sync.get("userData", function (result) {
+extensionApi.storage.sync.get(["userData", "newUrl"], function (result) {
   if (!result.userData) {
     gifImage.style.width = "150px";
     gifImage.style.top = "40px";
@@ -23,11 +23,10 @@ extensionApi.storage.sync.get("userData", function (result) {
     const sliderData = result.userData;
     applyStylesToGif(sliderData);
   }
-});
 
-extensionApi.storage.sync.get("newUrl", function (result) {
   if (!result.newUrl) {
-    gifImage.src = gifUrl;
+    gifImage.src = DEFAULT_GIF_URL;
+    extensionApi.storage.sync.set({ newUrl: DEFAULT_GIF_URL });
   } else {
     gifImage.src = result.newUrl;
   }

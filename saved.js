@@ -1,5 +1,6 @@
 const extensionApi = typeof browser !== "undefined" ? browser : chrome;
-const DEFAULT_GIF_URL = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
+const PRIMARY_DEFAULT_GIF_URL = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
+const SECONDARY_DEFAULT_GIF_URL = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
 
 const getFromStorage = (keys) =>
   new Promise((resolve) => {
@@ -40,14 +41,17 @@ const removeGif = async (urlToRemove) => {
   renderSavedGrid();
 };
 
-const ensureDefaultSavedGif = async () => {
-  const storage = await getFromStorage(["savedGifUrls"]);
+const ensureDefaultSavedGifs = async () => {
+  const storage = await getFromStorage(["savedGifUrls", "newUrl"]);
   const savedUrls = storage.savedGifUrls || [];
 
-  if (!savedUrls.includes(DEFAULT_GIF_URL)) {
-    const updated = [DEFAULT_GIF_URL, ...savedUrls];
-    await setInStorage({ savedGifUrls: updated });
-  }
+  const defaults = [PRIMARY_DEFAULT_GIF_URL, SECONDARY_DEFAULT_GIF_URL];
+  const merged = [...defaults, ...savedUrls];
+  const deduped = merged.filter((url, index) => merged.indexOf(url) === index);
+
+  const newUrl = storage.newUrl || PRIMARY_DEFAULT_GIF_URL;
+
+  await setInStorage({ savedGifUrls: deduped, newUrl });
 };
 
 const renderSavedGrid = async () => {
@@ -82,10 +86,10 @@ const renderSavedGrid = async () => {
     img.className = "w-full h-28 object-cover";
 
     const removeBtn = document.createElement("button");
-    removeBtn.innerHTML = "&times;";
+    removeBtn.textContent = "×";
     removeBtn.setAttribute("aria-label", "Remove GIF");
     removeBtn.className =
-      "absolute top-1 right-1 h-6 w-6 rounded-full bg-black/80 text-white text-base leading-none flex items-center justify-center border border-purple-500 opacity-95 hover:bg-black";
+      "absolute top-1 right-1 h-6 w-6 rounded-full bg-black/80 text-white text-lg font-bold leading-none flex items-center justify-center border border-purple-400 shadow-md opacity-95 hover:bg-black";
     removeBtn.addEventListener("click", (event) => {
       event.stopPropagation();
       removeGif(url);
@@ -104,7 +108,7 @@ const init = () => {
     window.location.href = "hello.html";
   });
   document.getElementById("refreshSaved").addEventListener("click", renderSavedGrid);
-  ensureDefaultSavedGif().then(renderSavedGrid);
+  ensureDefaultSavedGifs().then(renderSavedGrid);
 };
 
 init();

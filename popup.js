@@ -1,5 +1,6 @@
 const extensionApi = typeof browser !== "undefined" ? browser : chrome;
-const DEFAULT_GIF_URL = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
+const PRIMARY_DEFAULT_GIF_URL = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
+const SECONDARY_DEFAULT_GIF_URL = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
 
 const getFromStorage = (keys) =>
   new Promise((resolve) => {
@@ -32,14 +33,17 @@ const applyGifUrl = async (url) => {
   sendMessageToActiveTab({ type: "updateUrl", data: url });
 };
 
-const ensureDefaultSavedGif = async () => {
-  const storage = await getFromStorage(["savedGifUrls"]);
+const ensureDefaultSavedGifs = async () => {
+  const storage = await getFromStorage(["savedGifUrls", "newUrl"]);
   const savedUrls = storage.savedGifUrls || [];
 
-  if (!savedUrls.includes(DEFAULT_GIF_URL)) {
-    const updated = [DEFAULT_GIF_URL, ...savedUrls];
-    await setInStorage({ savedGifUrls: updated });
-  }
+  const defaults = [PRIMARY_DEFAULT_GIF_URL, SECONDARY_DEFAULT_GIF_URL];
+  const merged = [...defaults, ...savedUrls];
+  const deduped = merged.filter((url, index) => merged.indexOf(url) === index);
+
+  const newUrl = storage.newUrl || PRIMARY_DEFAULT_GIF_URL;
+
+  await setInStorage({ savedGifUrls: deduped, newUrl });
 };
 
 const updateSliders = () => {
@@ -112,10 +116,10 @@ const wireUi = () => {
 };
 
 const init = async () => {
-  await ensureDefaultSavedGif();
+  await ensureDefaultSavedGifs();
 
   const storage = await getFromStorage(["newUrl"]);
-  const activeUrl = storage.newUrl || DEFAULT_GIF_URL;
+  const activeUrl = storage.newUrl || PRIMARY_DEFAULT_GIF_URL;
 
   updateSliders();
   registerSliderListeners();

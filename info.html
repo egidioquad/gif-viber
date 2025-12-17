@@ -24,7 +24,7 @@
           <p class="text-xs text-purple-200">Thanks for vibing with us!</p>
         </div>
         <button
-          onclick="window.location.href='hello.html'"
+          id="backToPopup"
           class="h-9 px-3 bg-purple-800/80 hover:bg-purple-700 text-white rounded-lg text-sm border border-purple-600">
           Back
         </button>
@@ -47,6 +47,20 @@
           </button>
         </form>
       </div>
+
+      <script>
+        const extApi = typeof browser !== "undefined" ? browser : chrome;
+        const backButton = document.getElementById("backToPopup");
+        backButton.addEventListener("click", () => {
+          const targetUrl = extApi.runtime.getURL("hello.html");
+          if (window.location.href === targetUrl) return;
+          try {
+            window.location.href = targetUrl;
+          } catch (err) {
+            extApi.tabs && extApi.tabs.update({ url: targetUrl });
+          }
+        });
+      </script>
     </div>
   </body>
 </html>
