@@ -1,34 +1,37 @@
-const gifUrl = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
+const extensionApi = typeof browser !== "undefined" ? browser : chrome;
+const DEFAULT_GIF_URL = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
 const gifImage = document.createElement("img");
 gifImage.id = "gifImage";
 
-gifImage.style.position = "fixed";
-gifImage.style.zIndex = "99999";
-gifImage.style.pointerEvents = "none";
+gifImage.style.all = "unset";
+gifImage.style.setProperty("position", "fixed", "important");
+gifImage.style.setProperty("z-index", "2147483647", "important");
+gifImage.style.setProperty("pointer-events", "none", "important");
+gifImage.style.setProperty("max-width", "none", "important");
+gifImage.style.setProperty("max-height", "none", "important");
+gifImage.style.setProperty("margin", "0", "important");
+gifImage.style.setProperty("padding", "0", "important");
+gifImage.style.setProperty("left", "auto", "important");
 
-// Get the slider data from storage
-chrome.storage.sync.get("userData", function (result) {
+extensionApi.storage.sync.get(["userData", "newUrl"], function (result) {
   if (!result.userData) {
-    // Handle the case when userData is not available
     gifImage.style.width = "150px";
     gifImage.style.top = "40px";
     gifImage.style.right = "10px";
     gifImage.style.display = "block";
   } else {
-    // Access the retrieved userData
     const sliderData = result.userData;
     applyStylesToGif(sliderData);
   }
-});
 
-chrome.storage.sync.get("newUrl", function (result) {
   if (!result.newUrl) {
-    gifImage.src = gifUrl;
+    gifImage.src = DEFAULT_GIF_URL;
+    extensionApi.storage.sync.set({ newUrl: DEFAULT_GIF_URL });
   } else {
     gifImage.src = result.newUrl;
   }
 });
-// Append the <img> element to the body of the webpage
+
 document.body.appendChild(gifImage);
 
 const applyStylesToGif = (sliderData) => {
@@ -37,23 +40,19 @@ const applyStylesToGif = (sliderData) => {
   const right = parseInt(sliderData.right);
   const onSwitch = sliderData.onSwitch.toString();
 
-  console.log("styles Data: ", width, top, right, onSwitch);
-  // Apply styles using the received slider data
-  gifImage.style.width = `${width}px`;
-  gifImage.style.top = `${top}px`;
-  gifImage.style.right = `${right}px`;
+  gifImage.style.setProperty("width", `${width}px`, "important");
+  gifImage.style.setProperty("top", `${top}px`, "important");
+  gifImage.style.setProperty("right", `${right}px`, "important");
 
   if (onSwitch === "true") {
-    gifImage.style.display = "block";
+    gifImage.style.setProperty("display", "block", "important");
   } else {
-    gifImage.style.display = "none";
+    gifImage.style.setProperty("display", "none", "important");
   }
 };
 
-// Listen for a single message containing updated slider data
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+extensionApi.runtime.onMessage.addListener((message) => {
   if (message.type === "updateUserData") {
-    // Access the updated slider data
     const updatedSliderData = message.data;
     applyStylesToGif(updatedSliderData);
   } else if (message.type === "updateUrl") {
@@ -70,5 +69,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       gifImage.style.display = "block";
     }
   }
-  // Handle other message types if needed
 });
