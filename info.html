@@ -53,11 +53,12 @@
         const backButton = document.getElementById("backToPopup");
         backButton.addEventListener("click", () => {
           const targetUrl = extApi.runtime.getURL("hello.html");
-          if (window.location.href === targetUrl) return;
           try {
-            window.location.href = targetUrl;
+            window.location.assign(targetUrl);
           } catch (err) {
-            extApi.tabs && extApi.tabs.update({ url: targetUrl });
+            if (extApi.tabs && extApi.tabs.update) {
+              extApi.tabs.update({ url: targetUrl });
+            }
           }
         });
       </script>

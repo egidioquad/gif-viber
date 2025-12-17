@@ -86,10 +86,10 @@ const renderSavedGrid = async () => {
     img.className = "w-full h-28 object-cover";
 
     const removeBtn = document.createElement("button");
-    removeBtn.textContent = "×";
+    removeBtn.innerHTML = "&times;";
     removeBtn.setAttribute("aria-label", "Remove GIF");
     removeBtn.className =
-      "absolute top-1 right-1 h-6 w-6 rounded-full bg-black/80 text-white text-lg font-bold leading-none flex items-center justify-center border border-purple-400 shadow-md opacity-95 hover:bg-black";
+      "absolute top-1 right-1 h-7 w-7 rounded-full bg-black/85 text-white text-xl font-extrabold leading-none flex items-center justify-center border border-indigo-300 shadow-md opacity-95 hover:bg-black";
     removeBtn.addEventListener("click", (event) => {
       event.stopPropagation();
       removeGif(url);
@@ -105,7 +105,14 @@ const renderSavedGrid = async () => {
 
 const init = () => {
   document.getElementById("backButton").addEventListener("click", () => {
-    window.location.href = "hello.html";
+    const targetUrl = extensionApi.runtime.getURL("hello.html");
+    try {
+      window.location.assign(targetUrl);
+    } catch (err) {
+      if (extensionApi.tabs && extensionApi.tabs.update) {
+        extensionApi.tabs.update({ url: targetUrl });
+      }
+    }
   });
   document.getElementById("refreshSaved").addEventListener("click", renderSavedGrid);
   ensureDefaultSavedGifs().then(renderSavedGrid);
