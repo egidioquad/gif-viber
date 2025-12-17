@@ -44,6 +44,25 @@
       font-family: "Quicksand", sans-serif;
     }
 
+    input[type="text"] {
+      background-color: #241445;
+      color: #f5f3ff;
+      caret-color: #f5f3ff;
+    }
+
+    input[type="text"]::placeholder {
+      color: #c4b5fd;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #f5f3ff;
+      box-shadow: 0 0 0px 1000px #241445 inset;
+      transition: background-color 9999s ease-in-out 0s;
+      caret-color: #f5f3ff;
+    }
+
     .switch input {
       opacity: 0;
       width: 0;
@@ -102,6 +121,7 @@
           <input
             type="text"
             id="newUrl"
+            autocomplete="off"
             class="rounded-lg border border-purple-700 h-10 px-3 text-sm bg-purple-900/60 text-purple-100 placeholder-purple-400"
             placeholder="Paste a GIF link" />
           <div class="flex items-center gap-2">
