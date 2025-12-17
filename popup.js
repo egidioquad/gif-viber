@@ -1,5 +1,5 @@
 const extensionApi = typeof browser !== "undefined" ? browser : chrome;
-const DEFAULT_GIF_URL = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
+const DEFAULT_GIF_URL = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
 
 const getFromStorage = (keys) =>
   new Promise((resolve) => {
@@ -30,6 +30,16 @@ const applyGifUrl = async (url) => {
   if (!url) return;
   await setInStorage({ newUrl: url });
   sendMessageToActiveTab({ type: "updateUrl", data: url });
+};
+
+const ensureDefaultSavedGif = async () => {
+  const storage = await getFromStorage(["savedGifUrls"]);
+  const savedUrls = storage.savedGifUrls || [];
+
+  if (!savedUrls.includes(DEFAULT_GIF_URL)) {
+    const updated = [DEFAULT_GIF_URL, ...savedUrls];
+    await setInStorage({ savedGifUrls: updated });
+  }
 };
 
 const updateSliders = () => {
@@ -102,6 +112,8 @@ const wireUi = () => {
 };
 
 const init = async () => {
+  await ensureDefaultSavedGif();
+
   const storage = await getFromStorage(["newUrl"]);
   const activeUrl = storage.newUrl || DEFAULT_GIF_URL;
 

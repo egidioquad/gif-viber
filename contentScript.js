@@ -1,14 +1,17 @@
 const extensionApi = typeof browser !== "undefined" ? browser : chrome;
-const gifUrl = "https://media.giphy.com/media/EIMaztL7ICrLS07tcT/giphy.gif";
+const gifUrl = "https://media.tenor.com/IRFM1RzwxV0AAAAi/goku-dance.gif";
 const gifImage = document.createElement("img");
 gifImage.id = "gifImage";
 
-gifImage.style.position = "fixed";
-if (!gifImage.style.position) {
-  gifImage.style.position = "fixed";
-}
-gifImage.style.zIndex = "99999";
-gifImage.style.pointerEvents = "none";
+gifImage.style.all = "unset";
+gifImage.style.setProperty("position", "fixed", "important");
+gifImage.style.setProperty("z-index", "2147483647", "important");
+gifImage.style.setProperty("pointer-events", "none", "important");
+gifImage.style.setProperty("max-width", "none", "important");
+gifImage.style.setProperty("max-height", "none", "important");
+gifImage.style.setProperty("margin", "0", "important");
+gifImage.style.setProperty("padding", "0", "important");
+gifImage.style.setProperty("left", "auto", "important");
 
 extensionApi.storage.sync.get("userData", function (result) {
   if (!result.userData) {
@@ -38,14 +41,14 @@ const applyStylesToGif = (sliderData) => {
   const right = parseInt(sliderData.right);
   const onSwitch = sliderData.onSwitch.toString();
 
-  gifImage.style.width = `${width}px`;
-  gifImage.style.top = `${top}px`;
-  gifImage.style.right = `${right}px`;
+  gifImage.style.setProperty("width", `${width}px`, "important");
+  gifImage.style.setProperty("top", `${top}px`, "important");
+  gifImage.style.setProperty("right", `${right}px`, "important");
 
   if (onSwitch === "true") {
-    gifImage.style.display = "block";
+    gifImage.style.setProperty("display", "block", "important");
   } else {
-    gifImage.style.display = "none";
+    gifImage.style.setProperty("display", "none", "important");
   }
 };
 
