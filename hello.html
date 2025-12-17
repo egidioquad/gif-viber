@@ -85,7 +85,7 @@
       <div class="flex justify-between items-center">
         <div class="hover:bg-purple-800/40 rounded-md px-2 py-1 cursor-pointer" id="redirectInfoPage">
           <h1 class="font-bold text-lg text-purple-100">GIF Viber</h1>
-          <p class="text-xs text-purple-200">Make your browser happier</p>
+          <p class="text-xs text-purple-200">paste img link and start vibing</p>
         </div>
         <div class="flex items-center gap-2 text-sm">
           <span class="font-semibold text-purple-100">GIF</span>
@@ -98,24 +98,26 @@
 
       <div class="space-y-2">
         <label for="newUrl" class="mr-2 font-semibold text-purple-100">New GIF URL</label>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-col gap-2">
           <input
             type="text"
             id="newUrl"
-            class="rounded-lg border border-purple-700 h-9 flex-grow px-2 text-sm bg-purple-900/60 text-purple-100 placeholder-purple-400"
+            class="rounded-lg border border-purple-700 h-10 px-3 text-sm bg-purple-900/60 text-purple-100 placeholder-purple-400"
             placeholder="Paste a GIF link" />
-          <button
-            id="urlButton"
-            class="w-9 h-9 bg-purple-700 hover:bg-purple-600 rounded-lg text-lg font-semibold text-white"
-            title="Apply GIF URL">
-            >
-          </button>
-          <button
-            id="saveUrlButton"
-            class="px-3 h-9 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-400"
-            title="Save GIF URL to list">
-            Save
-          </button>
+          <div class="flex items-center gap-2">
+            <button
+              id="urlButton"
+              class="w-9 h-9 bg-purple-700 hover:bg-purple-600 rounded-lg text-lg font-semibold text-white"
+              title="Apply GIF URL">
+              >
+            </button>
+            <button
+              id="saveUrlButton"
+              class="flex-1 h-9 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-400"
+              title="Save GIF URL to list">
+              Save
+            </button>
+          </div>
         </div>
       </div>
 
@@ -134,16 +136,11 @@
         </div>
       </div>
 
-      <div class="flex justify-between items-center">
+      <div class="flex justify-center items-center">
         <button
           id="savedPageButton"
-          class="flex-1 mr-2 h-10 bg-purple-800/80 hover:bg-purple-700 text-white rounded-lg text-sm border border-purple-600">
+          class="w-full h-10 bg-purple-800/80 hover:bg-purple-700 text-white rounded-lg text-sm border border-purple-600">
           Saved images
-        </button>
-        <button
-          id="redirectInfoPageSecondary"
-          class="h-10 px-3 bg-purple-900/60 hover:bg-purple-800 text-purple-100 rounded-lg text-sm border border-purple-700">
-          Info
         </button>
       </div>
 

@@ -92,10 +92,7 @@ const wireUi = () => {
   document.getElementById("savedPageButton").addEventListener("click", () => {
     window.location.href = "saved.html";
   });
-  const infoButtons = [
-    document.getElementById("redirectInfoPage"),
-    document.getElementById("redirectInfoPageSecondary"),
-  ].filter(Boolean);
+  const infoButtons = [document.getElementById("redirectInfoPage")].filter(Boolean);
 
   infoButtons.forEach((button) => {
     button.addEventListener("click", () => {
