@@ -9,35 +9,38 @@
     <link rel="stylesheet" href="https://www.paypalobjects.com/donate/en_US/button.css" />
   </head>
   <style>
-    h1 {
-      font-family: "Quicksand", sans-serif;
-    }
-    label {
+    h1,
+    p,
+    button,
+    a {
       font-family: "Quicksand", sans-serif;
     }
   </style>
-  <body class="w-64 h-88 bg-purple-300 p-2">
-    <div class="bg-purple-200 rounded-md">
-      <div class="flex justify-between items-center py-4 px-4">
-        <div class="hover:bg-purple-300 rounded-md py-4 px-2" id="redirectInfoPage">
-          <h1 class="font-bold text-lg">GIF Viber</h1>
-        </div>
-        <div>
-          <h1>Thanks for using!</h1>
-        </div>
+  <body class="bg-gradient-to-br from-purple-900 via-indigo-900 to-black p-3 w-80 text-white">
+    <div class="bg-purple-950/70 border border-purple-700 rounded-xl shadow-lg space-y-3 p-4">
+      <div class="space-y-0.5">
+        <h1 class="font-bold text-lg text-purple-100">GIF Viber</h1>
+        <p class="text-xs text-purple-200">Thanks for vibing with us!</p>
       </div>
-      <div class="py-4 px-4 flex flex-col items-center">
-				<h1 class="text-md font-semibold">Please consider donating</h1>
-				<form action="https://www.paypal.com/donate" method="post" target="_blank">
-					<input type="hidden" name="hosted_button_id" value="KRH69Q7H86ANE" />
-					<button type="submit" class="bg-purple-300 text-white py-2 px-4 rounded-md w-48 ">
-						<img src='https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif' />
-						
-					</button>
-				</form>
-				
+
+      <div class="space-y-3 bg-purple-900/40 rounded-lg p-3 border border-purple-800">
+        <p class="text-sm text-purple-100">This add-on lets you pin your favorite GIFs and quickly swap them while you browse.</p>
+        <p class="text-sm text-purple-200">Save links in the main popup, then open the saved images page to apply any GIF with a tap.</p>
+      </div>
+
+      <div class="space-y-2 bg-purple-900/40 rounded-lg p-3 border border-purple-800 text-center">
+        <p class="text-sm text-purple-100 font-semibold">Enjoying the vibes?</p>
+        <form action="https://www.paypal.com/donate" method="post" target="_blank" class="flex flex-col items-center gap-2">
+          <input type="hidden" name="hosted_button_id" value="KRH69Q7H86ANE" />
+          <button
+            type="submit"
+            class="w-full h-10 bg-indigo-500 text-white rounded-lg text-sm hover:bg-indigo-400 border border-purple-600 flex items-center justify-center gap-2">
+            <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" class="h-5" alt="Donate" />
+            <span>Donate</span>
+          </button>
         </form>
       </div>
+
     </div>
   </body>
 </html>
