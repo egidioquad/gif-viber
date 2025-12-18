@@ -1,13 +1,23 @@
 {
-  "manifest_version": 3,
-  "name": "GIF Viber",
-  "description": "Decorate your browser with a GIF.",
-  "version": "1.0",
-  "action": {
+  "manifest_version": 2,
+  "name": "GIF Viber (Firefox)",
+  "description": "Decorate your browser with a GIF. Firefox-native build with saved GIF list.",
+  "version": "1.1.2",
+  "icons": {
+    "48": "icon.png",
+    "96": "icon.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "gif-viber@example.org",
+      "strict_min_version": "115.0"
+    }
+  },
+  "browser_action": {
     "default_popup": "hello.html",
     "default_icon": "icon.png"
   },
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -15,6 +25,8 @@
     }
   ],
   "background": {
-    "service_worker": "background.js"
-  }
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_security_policy": "default-src 'self'; script-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; connect-src 'self';"
 }
